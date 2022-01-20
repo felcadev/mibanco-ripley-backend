@@ -1,0 +1,23 @@
+{
+  "name": "mibanco-ripley-backend",
+  "version": "1.0.0",
+  "description": "backend de desafio tecnico para ripley",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "felcadev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express-validator": "^6.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.1",
+    "uuid": "^8.3.2"
+  }
+}
