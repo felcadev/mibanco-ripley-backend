@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const UserSchema = Schema({
+const PeopleSchema = Schema({
     name: {
         type: String,
         required: true
@@ -8,23 +8,31 @@ const UserSchema = Schema({
     email: {
         type: String,
         required: true,
-        unique: true
     },
-    password: {
+    rut: {
         type: String,
         required: true
     },
-    peoples: [{
+    phoneNumber: {
+        type: String,
+        required: true
+    },
+    user: {
         type: Schema.Types.ObjectId,
-        ref: 'People'
+        ref: 'User',
+        required: true
+    },
+    accounts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Account'
     }]
 });
 
 
-UserSchema.method('toJSON', function (){
+PeopleSchema.method('toJSON', function (){
     const { __v, password, ...object } = this.toObject();
     return object;
 
 });
 
-module.exports = model('User', UserSchema);
+module.exports = model('People', PeopleSchema);

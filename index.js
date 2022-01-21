@@ -13,6 +13,8 @@ dbConnection();
 
 app.use('/api/v1/login', require('./routes/v1/auth'));
 app.use('/api/v1/user', require('./routes/v1/user'));
+app.use('/api/v1/account', require('./routes/v1/account'));
+
 
 
 
