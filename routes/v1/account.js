@@ -3,12 +3,12 @@ const { check } = require('express-validator');
 const { validateFields } = require('../../middlewares/fields-validator');
 const { validateToken } = require('../../middlewares/token-validator');
 
-const { postAccount, getMyPeopleAccounts } = require('../../controllers/v1/accounts');
+const { postAccount, getMyPeopleAccounts } = require('../../controllers/v1/account');
 
 
 const router = Router();
 
-router.post('/', [
+router.post('/payee', [
     validateToken,
     check('name', 'La contraseña es requerida').not().isEmpty(),
     check('rut', 'La contraseña es requerida').not().isEmpty(),

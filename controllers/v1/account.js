@@ -11,9 +11,7 @@ const getMyPeopleAccounts = async (req, res) => {
     try{
 
         const userId = req.id; // Token midleware provider
-        console.log(userId);
         
-
         const peopleAccounts = await People.aggregate([
             { $match: { user: ObjectId(userId) }},
             {
@@ -29,7 +27,7 @@ const getMyPeopleAccounts = async (req, res) => {
 
         return res.json({
             ok: true,
-            peopleAccounts
+            payeeAccounts: peopleAccounts
         })
 
     }catch(error){
@@ -40,13 +38,13 @@ const getMyPeopleAccounts = async (req, res) => {
         })
     }
 
-
 }
 
 const postAccount = async (req, res) => {
 
     const userId = req.id;
     const { name , rut, email, phoneNumber, bankId, accountType, accountNumber } = req.body;
+    
 
     const peopleData = { 
         name,
