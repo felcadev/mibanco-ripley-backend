@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const AccountSchema = Schema({
+const TransferSchema = Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -27,19 +27,39 @@ const AccountSchema = Schema({
         type: Number,
         required: true
     },
-    accountNumber: {
+    name: {
+        type: String,
+        required: true
+    },
+    rut: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phoneNumber: {
         type: Number,
         required: true
     },
+    amount: {
+        type: Number,
+        required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    }
 
 
 });
 
 
-AccountSchema.method('toJSON', function (){
+TransferSchema.method('toJSON', function (){
     const { __v, password, ...object } = this.toObject();
     return object;
 
 });
 
-module.exports = model('Account', AccountSchema);
+module.exports = model('Transfer', TransferSchema);
