@@ -1,23 +1,37 @@
 const { Schema, model } = require('mongoose');
 
 const AccountSchema = Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    account: {
+        type: Schema.Types.ObjectId,
+        ref: 'Account',
+        required: true
+    },
     bankId: {
         type: String,
         required: true
     },
-    type: {
+    bankName:{
+        type: String,
+        required: true
+    }, 
+    accountType: {
         type: String,
         required: true,
     },
-    number: {
-        type: String,
+    accountNumber: {
+        type: Number,
         required: true
     },
-    payee: {
-        type: Schema.Types.ObjectId,
-        ref: 'Payee',
+    accountNumber: {
+        type: Number,
         required: true
     },
+
 
 });
 

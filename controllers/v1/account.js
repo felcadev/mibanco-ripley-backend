@@ -1,4 +1,4 @@
-const People = require('../../models/v1/people');
+const Payee = require('../../models/v1/payee');
 const Account = require('../../models/v1/account');
 const User = require('../../models/v1/user');
 const user = require('../../models/v1/user');
@@ -6,19 +6,19 @@ const user = require('../../models/v1/user');
 const ObjectId = require('mongoose').Types.ObjectId
 
 
-const getMyPeopleAccounts = async (req, res) => {
+const getMyPayeeAccounts = async (req, res) => {
 
     try{
 
         const userId = req.id; // Token midleware provider
         
-        const peopleAccounts = await People.aggregate([
+        const payeeAccounts = await Payee.aggregate([
             { $match: { user: ObjectId(userId) }},
             {
                 $lookup: {
                     from: 'accounts',
                     localField: '_id',
-                    foreignField: 'people',
+                    foreignField: 'payee',
                     as: 'accounts',
                 },
             }    
@@ -27,7 +27,7 @@ const getMyPeopleAccounts = async (req, res) => {
 
         return res.json({
             ok: true,
-            payeeAccounts: peopleAccounts
+            payeeAccounts
         })
 
     }catch(error){
@@ -46,7 +46,7 @@ const postAccount = async (req, res) => {
     const { name , rut, email, phoneNumber, bankId, accountType, accountNumber } = req.body;
     
 
-    const peopleData = { 
+    const payeeData = { 
         name,
         rut,
         email,
@@ -62,19 +62,19 @@ const postAccount = async (req, res) => {
 
     try{        
 
-        const peopleExist = await People.findOne({ user: userId, rut});
+        const payeeExist = await Payee.findOne({ user: userId, rut});
 
-        let people = null;
+        let payee = null;
         
-        if( peopleExist ){ // Update people
-            people = await People.findByIdAndUpdate( peopleExist.id, peopleData, { new: true } ); 
+        if( payeeExist ){ // Update people
+            payee = await Payee.findByIdAndUpdate( payeeExist.id, payeeData, { new: true } ); 
         }else{
-            const newPeople = new People({ ...peopleData, user: userId });
-            people = await newPeople.save();
+            const newPayee = new Payee({ ...payeeData, user: userId });
+            payee = await newPayee.save();
         }
 
 
-        const accountExist = await Account.findOne({ people: people.id, number: accountNumber });
+        const accountExist = await Account.findOne({ payee: payee.id, number: accountNumber });
 
         if( accountExist ) {
             return res.json({
@@ -83,13 +83,13 @@ const postAccount = async (req, res) => {
             })
         }
 
-        const newAccount = new Account({ ...accountData, people: people.id })
+        const newAccount = new Account({ ...accountData, payee: payee.id })
         const account = await newAccount.save();
 
         return res.json({
             ok: true,
             msg: 'Se ha registrado exitosamente',
-            people,
+            payee,
             account
         });
 
@@ -105,5 +105,5 @@ const postAccount = async (req, res) => {
 
 module.exports = {
     postAccount,
-    getMyPeopleAccounts
+    getMyPayeeAccounts
 }

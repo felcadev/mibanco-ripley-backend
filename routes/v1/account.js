@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { validateFields } = require('../../middlewares/fields-validator');
 const { validateToken } = require('../../middlewares/token-validator');
 
-const { postAccount, getMyPeopleAccounts } = require('../../controllers/v1/account');
+const { postAccount, getMyPayeeAccounts } = require('../../controllers/v1/account');
 
 
 const router = Router();
@@ -19,7 +19,7 @@ router.post('/payee', [
 
 router.get('/getmypeopleaccounts', [
     validateToken
-], getMyPeopleAccounts);
+], getMyPayeeAccounts);
 
 
 module.exports = router;

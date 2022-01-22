@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const PeopleSchema = Schema({
+const PayeeSchema = Schema({
     name: {
         type: String,
         required: true
@@ -29,10 +29,10 @@ const PeopleSchema = Schema({
 });
 
 
-PeopleSchema.method('toJSON', function (){
+PayeeSchema.method('toJSON', function (){
     const { __v, password, ...object } = this.toObject();
     return object;
 
 });
 
-module.exports = model('People', PeopleSchema);
+module.exports = model('Payee', PayeeSchema);
