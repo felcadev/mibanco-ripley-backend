@@ -31,6 +31,7 @@ const login = async (req, res) => {
 
         return res.json({
             ok: true,
+            userName: dbUser.name,
             token
         })
 
