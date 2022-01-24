@@ -46,7 +46,6 @@ const login = async (req, res) => {
 const renewToken = async(req, res = response) => {
 
     const id = req.id;
-    console.log(' renovando token' + id);
     
 
     const token = await generateToken( id );

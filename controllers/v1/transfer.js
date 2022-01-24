@@ -4,14 +4,13 @@ const Transfer = require('../../models/v1/transfer');
 const { request } = require('express');
 
 
-const getMyTransfer =  async (req = request , res) => {
+const getMyTransfers =  async (req = request , res) => {
 
     const userId = req.id;
     let { limit, page } = req.query;
 
     limit = limit < 20 ? limit : 20;
     page  = page > 0 ? page : 0;
-
 
     const query = { user: userId }
 
@@ -24,7 +23,6 @@ const getMyTransfer =  async (req = request , res) => {
         Transfer.countDocuments(query)
     ])
 
-
     return res.json({
         ok: true,
         page,
@@ -33,7 +31,6 @@ const getMyTransfer =  async (req = request , res) => {
         transfers,
 
     });
-
 
 }
 
@@ -57,8 +54,6 @@ const postTransfer = async (req, res) => {
                 msg: "Destinatario no encontrado"
             });
         }
-
-        console.log(payeeExist);
     
         const accountExist = await Account.findOne({ _id: accountId, payee: payeeExist.id });
         if(!accountExist){
@@ -103,6 +98,6 @@ const postTransfer = async (req, res) => {
 }
 
 module.exports = {
-    getMyTransfer,
+    getMyTransfers,
     postTransfer,
 }

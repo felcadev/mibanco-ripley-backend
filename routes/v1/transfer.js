@@ -3,14 +3,14 @@ const { check } = require('express-validator');
 const { validateFields } = require('../../middlewares/fields-validator');
 const { validateToken } = require('../../middlewares/token-validator');
 
-const { getMyTransfer, postTransfer } = require('../../controllers/v1/transfer');
+const { getMyTransfers, postTransfer } = require('../../controllers/v1/transfer');
 
 
 const router = Router();
 
-router.get('/', [
+router.get('/allmytransfers', [
     validateToken,
-], getMyTransfer);
+], getMyTransfers);
 
 
 router.post('/', [
