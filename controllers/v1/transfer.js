@@ -1,7 +1,11 @@
 const Payee = require('../../models/v1/payee');
 const Account = require('../../models/v1/account');
 const Transfer = require('../../models/v1/transfer');
+const User = require('../../models/v1/user');
+
+
 const { request } = require('express');
+const { sendEmailHelper } = require('../../helpers/email');
 
 
 const getMyTransfers =  async (req = request , res) => {
@@ -80,6 +84,11 @@ const postTransfer = async (req, res) => {
         const newTransfer = new Transfer({ ...transferData });
         const transfer = await newTransfer.save();
     
+        const user = await User.findById( userId );
+
+        sendEmail(payeeExist, user, transfer);
+
+
         return res.json({
             ok: true,
             msg: 'Se ha registrado exitosamente',
@@ -94,7 +103,35 @@ const postTransfer = async (req, res) => {
         })
     }
 
+}
 
+const  sendEmail = (payee, user, transfer) => {
+
+    let to = payee.email;
+    let subject = `Recibiste una transferencia de: ${user.name}`;
+    let html = `
+        <h1>¡Genial! Has recibido una transferencia ;)</h1>
+        <h3>Nuestro cliente ${user.name} te ha realizado una transferencia hoy.</h3>
+        <table>
+            <tr>
+                <th>Banco</th>
+                <th>Tipo cuenta</th>
+                <th>Numero</th>
+                <th>Monto</th>
+            </tr>
+            <tr>
+                <td>${transfer.bankName}</td>
+                <td>${transfer.accountType}</td>
+                <td>${transfer.accountNumber}</td>
+                <td>$${transfer.amount.toLocaleString('cl')}</td>
+            </tr>
+        </table>
+        <br/>
+        <p>Prefiere siempre los canales digitales. <p/>
+
+    `;
+
+    sendEmailHelper(to, subject, html);
 }
 
 module.exports = {
