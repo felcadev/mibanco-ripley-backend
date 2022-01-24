@@ -18,7 +18,7 @@ router.post('/', [
     check('payeeId', 'El id del destinatario es requerido').not().isEmpty(),
     check('accountId', 'El id de la cuenta es requerida').not().isEmpty(),
     check('bankName', 'El nombre del banco es requerido').not().isEmpty(),
-    check('amount', 'El monto de la transferencia es requerida').not().isEmpty(),
+    check('amount', 'El monto de la transferencia es requerida y debe ser mayor a 0').not().isEmpty().isNumeric().isInt({ min: 1 }),
     validateFields
 ], postTransfer);
 
